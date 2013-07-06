@@ -1,0 +1,14 @@
+{
+  "name": "digger-angular",
+  "repo": "binocarlos/digger-angular",
+  "description": "Angular JS adaptor to digger.io",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}

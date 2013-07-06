@@ -1,4 +1,17 @@
-diggerangular
-=============
+# digger-angular
 
-Angular JS directives for digger.io
+  Angular JS adaptor to [digger.io](http://github.com/binocarlos/digger.io)
+
+## Installation
+
+  Install with [component(1)](http://component.io):
+
+    $ component install binocarlos/digger-angular
+
+## API
+
+
+
+## License
+
+  MIT
