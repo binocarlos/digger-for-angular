@@ -1,6 +1,6 @@
 var page = require('./page');
 
-angular
+module.exports = angular
   .module('digger', [
     
   ])

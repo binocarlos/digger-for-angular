@@ -1,4 +1,4 @@
-angular
+module.exports = angular
   .module('digger', [
     
   ])
