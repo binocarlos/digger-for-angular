@@ -14,6 +14,8 @@ angular
         console.log('-------------------------------------------');
         console.log('-------------------------------------------');
         console.log('page found');
+        console.dir(tElement);
+        console.dir(transclude);
       }
 
     }
