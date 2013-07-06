@@ -1,0 +1,24 @@
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <td ng-repeat="field in blueprint.fields">{{ field.name }}</td>
+            <td>Action</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in container.containers() | orderBy:myValueFunction">
+            <td ng-repeat="field in blueprint.fields">{{ item.attr(field.name) }}</td>
+            <td class="center">
+            
+            <button class="btn btn-info" ng-click="editfn(item)">
+                <i title="Edit" class="icon-edit icon-white"></i>  
+            </button>
+            
+            <button class="btn btn-danger" ng-click="deletefn(item)">
+                <i title="Delete" class="icon-trash icon-white"></i>
+            </button>
+          </td>                                       
+          </tr>
+        </tbody>
+      </table>

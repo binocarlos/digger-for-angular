@@ -10,6 +10,10 @@
   "main": "src/index.js",
   "scripts": [
     "src/index.js",
-    "src/page.js"
+    "src/supplychain.js",
+    "src/form.js",
+    "src/templates/simple_editor.js",
+    "src/templates/simple_form.js",
+    "src/templates/simple_table.js"
   ]
 }

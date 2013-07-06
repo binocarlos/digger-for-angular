@@ -1,0 +1,13 @@
+  <div class="row row-fluid">
+    <div class="span5">
+      <legend><i class="icon-folder-close"></i> {{ action }} {{ title }}</legend>
+      <simple-form action="action" blueprint="blueprintobj" container="editcontainer" editfn="editfn" deletefn="deletefn" />
+    </div>
+      
+    <div class="span7">
+      <legend><i class="icon-table"></i> {{ title }} Table</legend>
+
+      <simple-table editfn="editfn" deletefn="deletefn" blueprint="blueprintobj" container="currentcontainer" />
+      
+    </div>
+  </div>

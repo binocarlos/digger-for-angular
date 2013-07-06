@@ -1,0 +1,37 @@
+
+      <form class="form" name="containerForm" onSubmit="return false;">
+        <fieldset>
+
+          <div class="control-group" 
+            ng-class="{error: field.required && showvalidate && containerForm[field.name].$invalid}"
+            ng-repeat="field in blueprint.fields">
+
+            <label class="control-label" for="name">{{ field.name | ucfirst }}</label>
+            <div class="controls">
+
+              <div ng-switch on="field.type">
+
+                <!-- text area -->
+                <span ng-switch-when="textarea">
+                  Text Area Here
+                </span>
+
+                <!-- textbox -->
+                <span ng-switch-default>
+                  <input type="text" id="name" name="name" placeholder="" class="input-xlarge" ng-model="model[field.name]" ng-required="field.required">
+                </span>
+              </div>
+
+              <span ng-show="field.required && showvalidate && containerForm[field.name].$error.required" class="help-inline">Required</span>
+            </div>
+          </div>
+          
+          <div class="control-group">
+            <div class="controls">
+              <button class="btn" ng-click="formcancel()">Cancel</button>
+              <button class="btn btn-success" ng-click="formsubmit()">{{ action }}</button>
+            </div>
+          </div>
+
+        </fieldset>
+      </form>
