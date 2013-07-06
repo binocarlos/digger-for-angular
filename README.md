@@ -1,16 +1,6 @@
 # digger-angular
 
-  Angular JS adaptor to [digger.io](http://github.com/binocarlos/digger.io)
-
-## Installation
-
-  Install with [component(1)](http://component.io):
-
-    $ component install binocarlos/digger-angular
-
-## API
-
-
+  Angular JS adaptor to [diggerapi](http://github.com/binocarlos/diggerapi)
 
 ## License
 

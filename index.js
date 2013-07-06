@@ -9,9 +9,7 @@ angular
     
   */
   .run([function (){
-    console.log('-------------------------------------------');
-    console.log('-------------------------------------------');
-    console.log('running digger module');    
+    console.log('angular adaptor booted...');
   }])
 
   /*
@@ -25,11 +23,14 @@ angular
 
   })
 
+
 angular.element(document).ready(function() {
   if(!window.$digger){
     throw new Error('$digger must be loaded on the same page to use the digger angular module');
   }
   window.$digger(function(){
+    console.log('digger.io version ' + window.$digger.version + ' loaded');
+    console.log('booting angular adaptor...');
     angular.bootstrap(document, ['digger']);
   })
 })  
