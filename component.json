@@ -9,6 +9,7 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": [
-    "index.js"
+    "src/index.js",
+    "src/page.js"
   ]
 }

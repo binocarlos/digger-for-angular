@@ -1,3 +1,5 @@
+var page = require('./page');
+
 angular
   .module('digger', [
     
