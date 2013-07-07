@@ -10,8 +10,6 @@
   "main": "src/index.js",
   "scripts": [
     "src/index.js",
-    "src/app.js",
-    "src/user.js",
     "src/supplychain.js",
     "src/form.js",
     "src/templates/simple_editor.js",

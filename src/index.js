@@ -1,5 +1,3 @@
-require('./app.js');
-require('./user.js');
 require('./supplychain.js');
 require('./form.js');
 
@@ -17,9 +15,7 @@ require('./form.js');
 
 angular
   .module('digger', [
-    'digger.app',
     'digger.supplychain',
-    'digger.user',
     'digger.form'
   ])
 
@@ -35,7 +31,7 @@ angular
     
   }])
 
-  /*
+    /*
   
     return a promise that resolves when the window $digger object is ready
     
@@ -44,12 +40,38 @@ angular
     return window.$digger;
   })
 
+  /*
+  
+    the root controller gives access to things like the user and root warehouse
+    
+  */
   .controller('DiggerRootCtrl', function($scope, $digger){
+
+    /*
+    
+      expose the connect command - this enables warehouses to be made from directives
+      
+    */
+    $scope.connect = $digger.connect;
+
+    /*
+    
+      expose the digger use - this is null if not logged in
+      
+    */
     $scope.user = $digger.user;
-    console.log('-------------------------------------------');
-    console.log('-------------------------------------------');
-    console.log('ROOT CONTROL');
+
+    /*
+    
+      expose the root warehouse - this can be used a the root container for the page
+      
+    */
+    $scope.warehouse = $digger.connect('/');
+
+    console.log('running root digger controller');
+
   })
+
 
 /*
 
@@ -74,7 +96,7 @@ window.$digger(function(){
     
   */
   setTimeout(function(){
-    var app = window.$digger.config.app || 'digger';
+    var app = window.$digger.config.application || 'digger';
 
     /*
     
