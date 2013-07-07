@@ -13,7 +13,10 @@ angular
     
   */
   .run([function (){
-    console.log('angular adaptor booted...');
+    $digger(function(){
+      console.log('angular adaptor booted...');
+    })
+    
   }])
 
   /*
@@ -21,46 +24,31 @@ angular
     return a promise that resolves when the window $digger object is ready
     
   */
-  .factory('$digger', function() {
-
+  .factory('$digger', function($q){
     return window.$digger;
-
   })
 
+  .controller('RootCtrl', function($scope, $digger){
+    $scope.user = $digger.user;
+  })
 
+/*
+
+  BOOTSTRAP
+  
+*/
 if(!window.$digger){
   throw new Error('$digger must be loaded on the same page to use the digger angular module');
 }
 
-var $digger = window.$digger;
-var config = $digger.config = window.$diggerconfig || {};
+/*
 
-if(config.user){
-  $digger.user = $digger.create(config.user);
-}
+  we manually bootstrap angular here so HTML users do not need to insert ng-app
 
-if(!$digger.manualboot){
-
-  window.$digger(function(){
-  /*
-
-    this bootstraps angular into the page and binds the document element onto the digger app
-
-    ng-app="digger"
-    
-  */
-
-    console.log('digger.io version ' + window.$digger.version + ' loaded');
-    console.log('booting angular adaptor...');
-    /*
-    
-      the boot module is passed as a query
-
-          /digger/angular/index.js?boot=buildright
-      
-    */
-
-    angular.bootstrap(document, ['digger']);
-  })  
-}
+  the ng-app that is run is 'digger'
   
+*/
+if(!window.$digger.config.manual){
+  console.log('running automatic bootstrap');
+  angular.bootstrap(document, ['digger']);
+}
