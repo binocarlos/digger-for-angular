@@ -1,3 +1,4 @@
+require('./utils.js');
 require('./supplychain.js');
 require('./form.js');
 
@@ -15,6 +16,7 @@ require('./form.js');
 
 angular
   .module('digger', [
+    'digger.utils',
     'digger.supplychain',
     'digger.form'
   ])
@@ -68,7 +70,6 @@ angular
     */
     $scope.warehouse = $digger.connect('/');
 
-    console.log('running root digger controller');
 
   })
 

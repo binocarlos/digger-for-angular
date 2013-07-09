@@ -14,7 +14,7 @@ angular
     the ACCOUNT DETAILS controller
     
   */
-  .directive('simpleEditor', function($blueprints){
+  .directive('simpleEditor', function(){
     return {
       restrict:'EA',
       scope:{
@@ -42,7 +42,7 @@ angular
 
         $scope.$watch('blueprint', function(name){
 
-          var blueprintobj = $scope.blueprintobj = $blueprints[name];
+          var blueprintobj = $scope.blueprintobj = $digger.blueprint.get(name);
 
           if(!name || !blueprintobj){
             return;
@@ -79,7 +79,7 @@ angular
     }
   })
 
-  .directive('simpleTable', function($blueprints){
+  .directive('simpleTable', function(){
     return {
       restrict:'EA',
       scope:{
@@ -98,7 +98,7 @@ angular
     }
   })
 
-  .directive('simpleForm', function($blueprints){
+  .directive('simpleForm', function(){
     return {
       restrict:'EA',
       scope:{
@@ -118,10 +118,6 @@ angular
           }
           $scope.showvalidate = false;
           $scope.model = container.get(0);
-        })
-
-        $scope.$watch('blueprint', function(blueprint){
-          
         })
 
         $scope.formcancel = function(){
