@@ -1,0 +1,8 @@
+<div ng-switch="rendertype">
+	<div ng-switch-when="textarea">
+		<textarea ng-model="model[field.name]"></textarea>
+	</div>
+	<div ng-switch-when="text">
+		<input class="input-xlarge" type="{{ rendertype || 'text' }}" ng-model="model[field.name]" ng-required="field.required" ng-minlength="field.minlength" ng-maxlength="field.maxlength" ng-pattern="field.pattern">
+	</div>
+</div>

@@ -1,6 +1,8 @@
-require('./utils.js');
-require('./supplychain.js');
-require('./form.js');
+require('./utils');
+require('./supplychain');
+require('./form');
+require('./filters');
+
 
 /*
 
@@ -18,7 +20,8 @@ angular
   .module('digger', [
     'digger.utils',
     'digger.supplychain',
-    'digger.form'
+    'digger.form',
+    'digger.filters'
   ])
 
   /*
@@ -29,6 +32,14 @@ angular
   .run([function (){
     $digger(function(){
       console.log('digger angular adaptor booted...');
+
+      var templates = {};
+      $('script[type="digger/template"]').each(function(){
+        var template = $(this).html();
+        var name = $(this).attr('name');
+        templates[name] = template;
+      })
+      $digger.template.add(templates);
     })
     
   }])

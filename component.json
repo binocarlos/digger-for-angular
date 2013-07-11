@@ -2,19 +2,22 @@
   "name": "digger-for-angular",
   "repo": "binocarlos/digger-for-angular",
   "description": "Angular JS adaptor to digger.io",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": [],
   "dependencies": {},
   "development": {},
   "license": "MIT",
   "main": "src/index.js",
+  "templates": [
+    "templates/*.html"
+  ],
   "scripts": [
     "src/index.js",
     "src/utils.js",
+    "src/filters.js",
     "src/supplychain.js",
     "src/form.js",
-    "src/templates/simple_editor.js",
-    "src/templates/simple_form.js",
-    "src/templates/simple_table.js"
+    "src/templates/form.js",
+    "src/templates/field.js"
   ]
 }

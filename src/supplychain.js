@@ -102,7 +102,10 @@ angular
           */
           contract.ship(function(results){
             $safeApply($scope, function(){
-              $scope.results = results;
+
+              var prop = $scope.assign ? $scope.assign : 'results';
+              $scope[prop] = results;
+
             })
           })
         }
@@ -120,6 +123,10 @@ angular
 
         $attrs.$observe('selector', function(value) {
           $scope.selector = value;
+        })
+
+        $attrs.$observe('assign', function(value) {
+          $scope.assign = value;
         })
 
         $scope.$watch('warehouse', function(){

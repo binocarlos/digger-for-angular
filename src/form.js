@@ -1,7 +1,6 @@
 var templates = {
-  simple_editor:require('./templates/simple_editor'),
-  simple_form:require('./templates/simple_form'),
-  simple_table:require('./templates/simple_table')
+  form:require('./templates/form'),
+  field:require('./templates/field')
 }
 
 angular
@@ -9,147 +8,71 @@ angular
     
   ])
 
-  /*
-  
-    the ACCOUNT DETAILS controller
-    
-  */
-  .directive('simpleEditor', function(){
+  .directive('diggerForm', function(){
+
+
+    //field.required && showvalidate && containerForm[field.name].$invalid
     return {
       restrict:'EA',
       scope:{
-        blueprint:'=',
-        selector:'=',
-        warehouse:'=',
-        savefn:'=',
-        deletefn:'='
+        fields:'=',
+        container:'='
       },
       replace:true,
-      template:templates.simple_editor,
-      controller:function($scope){
-        $scope.action = 'Add';
-        $scope.title = '';
-
-        $scope.$on('form:cancel', function(){
-          $scope.editcontainer = $scope.makeblankcontainer();
-          $scope.action = 'Add';
-        })
-
-        $scope.editfn = function(container){
-          $scope.editcontainer = container;
-          $scope.action = 'Save';
-        }
-
-        $scope.$watch('blueprint', function(name){
-
-          var blueprintobj = $scope.blueprintobj = $digger.blueprint.get(name);
-
-          if(!name || !blueprintobj){
-            return;
-          }
-
-          $scope.title = blueprintobj.name;
-          $scope.makeblankcontainer = function(){
-            return $digger.create({
-              _digger:_.extend({}, blueprintobj._digger)
-            })
-          }
-          $scope.editcontainer = $scope.makeblankcontainer();
-
-          if($scope.selector){
-            $scope
-              .warehouse($scope.selector)
-              .ship(function(items){
-
-                /*
-                
-                  text
-                  
-                */
-                $scope.$apply(function(){
-                  $scope.currentcontainer = items;
-                })
-              })
-          }
-          
-
-        })
-        
-      }
+      template:templates.form
     }
   })
 
-  .directive('simpleTable', function(){
-    return {
-      restrict:'EA',
-      scope:{
-        container:'=',
-        blueprint:'=',
-        editfn:'=',
-        deletefn:'='
-      },
-      replace:true,
-      template:templates.simple_table,
-      controller:function($scope){
-        $scope.myValueFunction = function(c) {
-          return c.digger('diggerpath')[0] || c.attr('name');
-        };
-      }
+  .directive('diggerField', function($compile){
+
+    //field.required && showvalidate && containerForm[field.name].$invalid
+
+    var typemap = {
+      money:'text'
     }
-  })
-
-  .directive('simpleForm', function(){
     return {
       restrict:'EA',
       scope:{
-        container:'=',
-        blueprint:'=',
-        action:'='
+        field:'=',
+        container:'='
       },
       replace:true,
-      template:templates.simple_form,
+      template:templates.field,
       controller:function($scope){
-
-        $scope.model = {};
-
         $scope.$watch('container', function(container){
           if(!container){
             return;
           }
-          $scope.showvalidate = false;
-          $scope.model = container.get(0);
+          var field = $scope.field.name;
+          
+          $scope.model = container.propertymodel(field);
         })
 
-        $scope.formcancel = function(){
-          $scope.$emit('form:cancel');
+        if(!$scope.field.pattern){
+          $scope.field.pattern = /./;
         }
+        $scope.type = $scope.field.type;
+        $scope.type = typemap[$scope.type] || $scope.type;
 
-        $scope.formsubmit = function(){
+        $scope.type = $scope.type || 'text';  
 
-          $scope.showvalidate = true;
+        $scope.rendertype = $scope.type;
 
-          if($scope.containerForm.$valid){
+        var template = $digger.template.get($scope.type);
 
-            $scope.container.save().ship(function(){
-              console.log('-------------------------------------------');
-              console.dir($scope.container.toJSON());  
-            })
-            
-            $scope.$emit('form:save');
-          }
-
-          return false;
+        if(template){
+          $scope.rendertype = 'template';
+          $scope.rendertemplate = template;
         }
-        
+      },
+      link:function($scope, elem, $attrs){
+
+        $scope.$watch('rendertemplate', function(html){
+
+          $(elem).append($compile(html)($scope));
+        })
+          
       }
-    }
-  })
 
-  .filter('ucfirst', function () {
-    return function (text, length, end) {
-      return text.replace(/^\w/, function(st){
-        return st.toUpperCase();
-      })
     }
   })
-  
