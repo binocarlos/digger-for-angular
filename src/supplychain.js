@@ -60,13 +60,17 @@ angular
     otherwise we use the parent scopes warehouse
     
   */
-  .directive('digger', function($rootScope, $scopedWarehouse, $safeApply){
+  .directive('digger', function($rootScope, $scopedWarehouse, $safeApply, $parse){
     return {
       restrict:'EA',
       scope:true,
       controller:function($scope){
 
         $scope.lastpath = '';
+
+        $scope.$on('digger:reload', function(){
+          $scope.runselector($scope.selector);
+        })
 
         /*
         
@@ -124,7 +128,7 @@ angular
         $attrs.$observe('selector', function(value) {
           $scope.selector = value;
         })
-
+       
         $attrs.$observe('assign', function(value) {
           $scope.assign = value;
         })

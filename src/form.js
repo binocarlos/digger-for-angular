@@ -16,8 +16,10 @@ angular
       restrict:'EA',
       scope:{
         fields:'=',
-        container:'='
+        container:'=',
+        fieldclass:'@'
       },
+      transclude:true,
       replace:true,
       template:templates.form
     }
@@ -28,13 +30,16 @@ angular
     //field.required && showvalidate && containerForm[field.name].$invalid
 
     var typemap = {
-      money:'text'
+      money:'text',
+      number:'text'
     }
+
     return {
       restrict:'EA',
       scope:{
         field:'=',
-        container:'='
+        container:'=',
+        fieldclass:'='
       },
       replace:true,
       template:templates.field,
@@ -44,13 +49,18 @@ angular
             return;
           }
           var field = $scope.field.name;
-          
           $scope.model = container.propertymodel(field);
         })
 
-        if(!$scope.field.pattern){
-          $scope.field.pattern = /./;
+        var pattern = $scope.field.pattern;
+
+        if(_.isEmpty(pattern)){
+          $scope.pattern = /./;
         }
+        else{
+          $scope.pattern = new RegExp(pattern);
+        }
+
         $scope.type = $scope.field.type;
         $scope.type = typemap[$scope.type] || $scope.type;
 

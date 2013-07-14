@@ -1,10 +1,12 @@
+<div>
 <div class="control-group" ng-class="{error: haserror}" ng-repeat="field in fields">
 
   <label class="control-label" for="name">{{ field.name | ucfirst }}</label>
   <div class="controls">
-  	<digger-field field="field" container="container" />
+  	<digger-field field="field" container="container" fieldclass="fieldclass" />
     
   </div>
 </div>
 
-
+<div ng-transclude></div>
+</div>
