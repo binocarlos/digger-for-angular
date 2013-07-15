@@ -29,9 +29,19 @@ angular
 
     //field.required && showvalidate && containerForm[field.name].$invalid
 
-    var typemap = {
-      money:'text',
-      number:'text'
+    /*
+    
+      these are types that should be converted into the input type="..."
+      
+    */
+    var fieldtypes = {
+      textarea:true,
+      template:true
+    }
+
+    var textrendertypes = {
+      number:true,
+      email:true
     }
 
     return {
@@ -44,36 +54,64 @@ angular
       replace:true,
       template:templates.field,
       controller:function($scope){
-        $scope.$watch('container', function(container){
-          if(!container){
+
+        $scope.fieldname = '';
+        $scope.rendertype = 'text';
+
+        $scope.setup = function(){
+          $scope.setup_field_and_model();
+          $scope.setup_render_type();
+        }
+
+        $scope.setup_field_and_model = function(){
+
+          if(!$scope.container){
             return;
           }
-          var field = $scope.field.name;
-          $scope.model = container.propertymodel(field);
-        })
+          $scope.fieldname = $scope.field.name;
+          $scope.model = $scope.container.propertymodel($scope.fieldname);
 
-        var pattern = $scope.field.pattern;
-
-        if(_.isEmpty(pattern)){
-          $scope.pattern = /./;
-        }
-        else{
-          $scope.pattern = new RegExp(pattern);
+          if($scope.fieldname.indexOf('.')>0){
+            var parts = $scope.fieldname.split('.');
+            $scope.fieldname = parts.pop();
+          }
         }
 
-        $scope.type = $scope.field.type;
-        $scope.type = typemap[$scope.type] || $scope.type;
+        $scope.setup_render_type = function(){
+          var pattern = $scope.field.pattern;
 
-        $scope.type = $scope.type || 'text';  
+          if(_.isEmpty(pattern)){
+            $scope.pattern = /./;
+          }
+          else{
+            $scope.pattern = new RegExp(pattern);
+          }
 
-        $scope.rendertype = $scope.type;
 
-        var template = $digger.template.get($scope.type);
+          /*
+          
+            if they have registered a custom template then use that!
+            
+          */
+          var template = $digger.template.get($scope.field.type);
 
-        if(template){
-          $scope.rendertype = 'template';
-          $scope.rendertemplate = template;
+          if(template){
+            $scope.fieldtype = 'template';
+            $scope.rendertemplate = template;
+          }
+          else{
+            $scope.readonly = $scope.field.type==='readonly';
+            $scope.fieldtype = fieldtypes[$scope.field.type] ? $scope.field.type : 'text';
+
+            if(textrendertypes[$scope.fieldtype]){
+              $scope.rendertype = textrendertypes[$scope.fieldtype] ? $scope.fieldtype : 'text';
+            }
+          }
         }
+
+ 
+
+
       },
       link:function($scope, elem, $attrs){
 
@@ -81,6 +119,15 @@ angular
 
           $(elem).append($compile(html)($scope));
         })
+
+        $scope.$watch('container', function(){
+          $scope.setup();
+        })
+
+        $scope.$watch('field', function(){
+          $scope.setup();
+        })
+
           
       }
 

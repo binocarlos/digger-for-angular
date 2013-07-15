@@ -11,4 +11,10 @@ angular
       })
     }
   })
+
+  .filter('idcolon', function () {
+    return function (text, length, end) {
+      return text.replace(/^\w+:/, '');
+    }
+  })
   

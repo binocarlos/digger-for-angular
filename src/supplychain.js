@@ -69,7 +69,7 @@ angular
         $scope.lastpath = '';
 
         $scope.$on('digger:reload', function(){
-          $scope.runselector($scope.selector);
+          $scope.runselector($scope.lastselector, true);
         })
 
         /*
@@ -77,10 +77,12 @@ angular
           this happens when the warehouse or selector changes
           
         */
-        $scope.runselector = function(selector){
+        $scope.runselector = function(selector, force){
           if(!selector || selector.length<=0){
             return;
           }
+
+          $scope.lastselector = selector;
 
           var currentwarehouse = $scope.warehouse.diggerurl();
           var currentselector = selector;
@@ -91,7 +93,7 @@ angular
             this prevents double requests as things get updated
             
           */
-          if(currentpath==$scope.lastpath){
+          if(!force && currentpath==$scope.lastpath){
             return;
           }
 
