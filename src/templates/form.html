@@ -1,8 +1,8 @@
 <div>
 <div class="control-group" ng-class="{error: haserror}" ng-repeat="field in fields">
 
-  <label class="control-label" for="name">{{ (field.title || field.name) | ucfirst }}</label>
-  <div class="controls">
+  <label style="width:100px;" class="control-label" for="name">{{ (field.title || field.name) | ucfirst }}</label>
+  <div class="controls" style="margin-left:120px;">
   	<digger-field field="field" container="container" fieldclass="fieldclass" />
     
   </div>

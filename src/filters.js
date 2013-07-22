@@ -14,7 +14,15 @@ angular
 
   .filter('idcolon', function () {
     return function (text, length, end) {
+      text = text || '';
       return text.replace(/^\w+:/, '');
+    }
+  })
+
+  .filter('icontitle', function () {
+    return function (text, length, end) {
+      text = text || '';
+      return text.replace(/^icon-/, '');
     }
   })
   

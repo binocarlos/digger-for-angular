@@ -25,6 +25,37 @@ angular
     }
   })
 
+  .directive('diggerClassField', function($compile, $safeApply){
+    return {
+      restrict:'A',
+      link:function($scope){
+
+        function getstring(){
+
+          return ($scope.model ? $scope.model[$scope.fieldname] : []).join(', ');
+        }
+
+        function setstring(st){
+          if(!$scope.model){
+            return;
+          }
+          var parts = _.map(st.split(','), function(s){
+            return s.replace(/^\s+/, '').replace(/\s+$/, '');
+          })
+
+          $scope.model[$scope.fieldname] = parts;
+          //$safeApply($scope, function(){});
+        }
+
+        $scope.classval = getstring();
+        $scope.$watch('classval', setstring);
+        $scope.$watch('model', function(){
+          $scope.classval = getstring();
+        });
+      }
+    }
+  })
+
   .directive('diggerField', function($compile){
 
     //field.required && showvalidate && containerForm[field.name].$invalid
@@ -36,6 +67,7 @@ angular
     */
     var fieldtypes = {
       textarea:true,
+      diggerclass:true,
       template:true
     }
 

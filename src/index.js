@@ -1,6 +1,8 @@
 require('./utils');
 require('./supplychain');
 require('./form');
+require('./tree');
+require('./radio');
 require('./filters');
 
 
@@ -21,6 +23,8 @@ angular
     'digger.utils',
     'digger.supplychain',
     'digger.form',
+    'digger.tree',
+    'digger.radio',
     'digger.filters'
   ])
 

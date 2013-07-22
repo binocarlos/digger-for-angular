@@ -1,8 +1,7 @@
 
 build: components index.js
-	@component convert src/templates/simple_editor.html
-	@component convert src/templates/simple_form.html
-	@component convert src/templates/simple_table.html
+	@component convert src/templates/field.html
+	@component convert src/templates/form.html
 	@component build --dev
 
 

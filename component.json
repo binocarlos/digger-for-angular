@@ -2,7 +2,7 @@
   "name": "digger-for-angular",
   "repo": "binocarlos/digger-for-angular",
   "description": "Angular JS adaptor to digger.io",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "keywords": [],
   "dependencies": {},
   "development": {},
@@ -20,6 +20,8 @@
     "src/filters.js",
     "src/supplychain.js",
     "src/form.js",
+    "src/tree.js",
+    "src/radio.js",
     "src/templates/form.js",
     "src/templates/field.js"
   ]
