@@ -2,7 +2,7 @@
   "name": "digger-for-angular",
   "repo": "binocarlos/digger-for-angular",
   "description": "Angular JS adaptor to digger.io",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "keywords": [],
   "dependencies": {},
   "development": {},

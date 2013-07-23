@@ -17,7 +17,8 @@ angular
       scope:{
         fields:'=',
         container:'=',
-        fieldclass:'@'
+        fieldclass:'@',
+        showedit:'='
       },
       transclude:true,
       replace:true,
@@ -52,11 +53,41 @@ angular
         $scope.$watch('model', function(){
           $scope.classval = getstring();
         });
+
+        
       }
     }
   })
 
-  .directive('diggerField', function($compile){
+  .factory('$diggerFieldTypes', function(){
+    return {
+      list:[
+        'text',
+        'textarea',
+        'number',
+        'email',
+        'radio',
+        'checkbox',
+        'select'
+      ],
+      properties:{
+        text:{},
+        number:{},
+        email:{},
+        textarea:{},
+        checkbox:{},
+        file:{},
+        radio:{
+          options:true
+        },
+        select:{
+          options:true
+        }
+      }
+    }
+  })
+
+  .directive('diggerField', function($compile, $safeApply){
 
     //field.required && showvalidate && containerForm[field.name].$invalid
 
@@ -66,9 +97,15 @@ angular
       
     */
     var fieldtypes = {
+      text:true,
+      number:true,
+      email:true,
       textarea:true,
       diggerclass:true,
-      template:true
+      template:true,
+      checkbox:true,
+      radio:true,
+      select:true
     }
 
     var textrendertypes = {
@@ -81,7 +118,8 @@ angular
       scope:{
         field:'=',
         container:'=',
-        fieldclass:'='
+        fieldclass:'=',
+        globalreadonly:'=readonly'
       },
       replace:true,
       template:templates.field,
@@ -110,6 +148,11 @@ angular
         }
 
         $scope.setup_render_type = function(){
+
+          if(!$scope.container){
+            return;
+          }
+          
           var pattern = $scope.field.pattern;
 
           if(_.isEmpty(pattern)){
@@ -119,6 +162,22 @@ angular
             $scope.pattern = new RegExp(pattern);
           }
 
+          if($scope.field.options_csv){
+            $scope.options = _.map($scope.field.options_csv.split(/,/), function(option){
+              return option.replace(/^\s+/, '').replace(/\s+$/, '');
+            })
+          }
+          else if($scope.field.options_warehouse){
+            var warehouse = $digger.connect($scope.field.options_warehouse);
+
+            warehouse($scope.field.options_selector).ship(function(results){
+              $safeApply($scope, function(){
+                $scope.options = results.map(function(result){
+                  return result.title();
+                })
+              })
+            })
+          }
 
           /*
           
@@ -132,13 +191,14 @@ angular
             $scope.rendertemplate = template;
           }
           else{
-            $scope.readonly = $scope.field.type==='readonly';
+
+            $scope.readonly = $scope.field.type==='readonly' || $scope.field.readonly || $scope.container.data('readonly');
             $scope.fieldtype = fieldtypes[$scope.field.type] ? $scope.field.type : 'text';
 
-            if(textrendertypes[$scope.fieldtype]){
-              $scope.rendertype = textrendertypes[$scope.fieldtype] ? $scope.fieldtype : 'text';
-            }
+            
           }
+
+
         }
 
  
