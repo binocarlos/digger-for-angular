@@ -99,7 +99,7 @@ angular
 
           $scope.lastpath = currentpath;
 
-          var args = [seletor];
+          var args = [selector];
           if(context){
             args.push(context);
           }
