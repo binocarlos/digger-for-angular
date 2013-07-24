@@ -69,7 +69,7 @@ angular
         $scope.lastpath = '';
 
         $scope.$on('digger:reload', function(){
-          $scope.runselector($scope.lastselector, true);
+          $scope.runselector($scope.lastselector, null, true);
         })
 
         /*
@@ -77,7 +77,7 @@ angular
           this happens when the warehouse or selector changes
           
         */
-        $scope.runselector = function(selector, force){
+        $scope.runselector = function(selector, context, force){
           if(!selector || selector.length<=0){
             return;
           }
@@ -99,7 +99,12 @@ angular
 
           $scope.lastpath = currentpath;
 
-          var contract = $scope.warehouse(selector);
+          var args = [seletor];
+          if(context){
+            args.push(context);
+          }
+
+          var contract = $scope.warehouse.apply($scope.warehouse, args);
 
           /*
           
@@ -130,17 +135,21 @@ angular
         $attrs.$observe('selector', function(value) {
           $scope.selector = value;
         })
+
+        $attrs.$observe('context', function(value) {
+          $scope.context = value;
+        })
        
         $attrs.$observe('assign', function(value) {
           $scope.assign = value;
         })
 
         $scope.$watch('warehouse', function(){
-          $scope.runselector($scope.selector);
+          $scope.runselector($scope.selector, $scope.context);
         })
         
         $scope.$watch('selector', function(){
-          $scope.runselector($scope.selector);
+          $scope.runselector($scope.selector, $scope.context);
         })
 
 
