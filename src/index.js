@@ -35,8 +35,6 @@ angular
   */
   .run([function($rootScope){
     
-    console.log('digger angular adaptor booted...');
-
     var templates = {};
    
     $('script[type="digger/template"]').each(function(){
@@ -113,7 +111,5 @@ setTimeout(function(){
   */
   $('html').attr('ng-controller', 'DiggerRootCtrl');
 
-  console.log('-------------------------------------------');
-  console.log('digger angular adaptor booting - application: ' + app);
   angular.bootstrap(document, [app]);  
 }, 100)
