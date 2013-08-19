@@ -33,18 +33,19 @@ angular
     make sure that the $digger object has been loaded onto the page
     
   */
-  .run([function (){
-    $digger(function(){
-      console.log('digger angular adaptor booted...');
+  .run([function($rootScope){
+    
+    console.log('digger angular adaptor booted...');
 
-      var templates = {};
-      $('script[type="digger/template"]').each(function(){
-        var template = $(this).html();
-        var name = $(this).attr('name');
-        templates[name] = template;
-      })
-      $digger.template.add(templates);
+    var templates = {};
+   
+    $('script[type="digger/template"]').each(function(){
+      var template = $(this).html();
+      var name = $(this).attr('name');
+      templates[name] = template;
     })
+   
+    //$digger.template.add(templates);
     
   }])
 
@@ -99,30 +100,20 @@ if(!window.$digger){
 
 /*
 
-  we manually bootstrap angular here so HTML users do not need to insert ng-app
-
-  the ng-app that is run is 'digger'
+  digger is loaded but lets give the rest of the code a chance to register before we bootstrap
   
 */
-window.$digger(function(){
+setTimeout(function(){
+  var app = window.$digger.config.application || 'digger';
+
   /*
   
-    digger is loaded but lets give the rest of the code a chance to register before we bootstrap
+    this auto adds the Root Controller so the rest of the page has things like user in it's scope
     
   */
-  setTimeout(function(){
-    var app = window.$digger.config.application || 'digger';
+  $('html').attr('ng-controller', 'DiggerRootCtrl');
 
-    /*
-    
-      this auto adds the Root Controller so the rest of the page has things like user in it's scope
-      
-    */
-    $('html').attr('ng-controller', 'DiggerRootCtrl');
-
-    console.log('-------------------------------------------');
-    console.log('digger angular adaptor booting - application: ' + app);
-    angular.bootstrap(document, [app]);  
-  }, 100)
-  
-})
+  console.log('-------------------------------------------');
+  console.log('digger angular adaptor booting - application: ' + app);
+  angular.bootstrap(document, [app]);  
+}, 100)
