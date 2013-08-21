@@ -40,7 +40,7 @@ angular
           if(!$scope.model){
             return;
           }
-          var parts = _.map(st.split(','), function(s){
+          var parts = (st.split(',') || []).map(function(s){
             return s.replace(/^\s+/, '').replace(/\s+$/, '');
           })
 
@@ -87,7 +87,33 @@ angular
     }
   })
 
-  .directive('diggerField', function($compile, $safeApply){
+  /*
+  
+    extracts the JS object that contains the target field - this becomes the model for the form field
+    
+  */
+  .factory('$propertyModel', function(){
+    return function(container, fieldname){
+      if(fieldname.indexOf('.')>0){
+        var parts = $scope.fieldname.split('.');
+        var fieldname = parts.pop();
+        var basename = parts.join('.');
+
+        return {
+          fieldname:fieldname,
+          model:container.attr(basename)
+        }
+      }
+      else{
+        return {
+          fieldname:fieldname,
+          model:container.get(0)
+        }
+      }
+    }
+  })
+
+  .directive('diggerField', function($compile, $safeApply, $propertyModel){
 
     //field.required && showvalidate && containerForm[field.name].$invalid
 
@@ -138,13 +164,12 @@ angular
           if(!$scope.container){
             return;
           }
-          $scope.fieldname = $scope.field.name;
-          $scope.model = $scope.container.propertymodel($scope.fieldname);
 
-          if($scope.fieldname.indexOf('.')>0){
-            var parts = $scope.fieldname.split('.');
-            $scope.fieldname = parts.pop();
-          }
+          var parsedmodel = $propertyModel($scope.container, $scope.field.name);
+
+          $scope.fieldname = parsedmodel.fieldname;
+          $scope.model = parsedmodel.model;
+          
         }
 
         $scope.setup_render_type = function(){
@@ -153,9 +178,9 @@ angular
             return;
           }
           
-          var pattern = $scope.field.pattern;
+          var pattern = $scope.field.pattern || '';
 
-          if(_.isEmpty(pattern)){
+          if(pattern.length<=0){
             $scope.pattern = /./;
           }
           else{
@@ -163,7 +188,7 @@ angular
           }
 
           if($scope.field.options_csv){
-            $scope.options = _.map($scope.field.options_csv.split(/,/), function(option){
+            $scope.options = ($scope.field.options_csv.split(/,/) || []).map(function(option){
               return option.replace(/^\s+/, '').replace(/\s+$/, '');
             })
           }

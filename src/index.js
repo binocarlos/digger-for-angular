@@ -43,7 +43,7 @@ angular
       templates[name] = template;
     })
    
-    //$digger.template.add(templates);
+    $digger.template.add(templates);
     
   }])
 

@@ -77,100 +77,30 @@ angular
           this happens when the warehouse or selector changes
           
         */
-        $scope.runselector = function(selector, context, force){
-          if(!selector || selector.length<=0){
-            return;
-          }
-
-          $scope.lastselector = selector;
-
-          var currentwarehouse = $scope.warehouse.diggerurl();
-          var currentselector = selector;
-          var currentpath = currentwarehouse + currentselector;
-
-          /*
-          
-            this prevents double requests as things get updated
-            
-          */
-          if(!force && currentpath==$scope.lastpath){
-            return;
-          }
-
-          $scope.lastpath = currentpath;
-
-          var args = [selector];
-          if(context){
-            args.push(context);
-          }
-
-          var contract = $scope.warehouse.apply($scope.warehouse, args);
-
+        $scope.runselector = function(selector){
           /*
           
             run the selector and populate results
             
           */
-          contract.ship(function(results){
+          $scope.warehouse(selector).ship(function(results){
+
             $safeApply($scope, function(){
 
-              var prop = $scope.assign ? $scope.assign : 'results';
-              $scope[prop] = results;
+              $scope.results = results;
+              $scope.containers = results.containers();
 
             })
+
           })
         }
       },
       link:function($scope, $elem, $attrs){
 
-        /*
-        
-          the selector string we are running for results
-          
-        */
-        var selector = '';
-
-        $attrs.$observe('warehouse', $scopedWarehouse($scope));
-
         $attrs.$observe('selector', function(value) {
-          $scope.selector = value;
+          $scope.runselector(value);
         })
 
-        $attrs.$observe('context', function(value) {
-          $scope.context = value;
-        })
-       
-        $attrs.$observe('assign', function(value) {
-          $scope.assign = value;
-        })
-
-        $scope.$watch('warehouse', function(){
-          $scope.runselector($scope.selector, $scope.context);
-        })
-        
-        $scope.$watch('selector', function(){
-          $scope.runselector($scope.selector, $scope.context);
-        })
-
-
-        /*
-        
-          the container to hold our results - blank at present
-          
-
-        $scope.results = null;
-
-        $scope.warehouse(selector).ship(function(answer){
-          console.log('-------------------------------------------');
-          console.log('-------------------------------------------');
-          console.log('results');
-          console.dir(answer.toJSON());
-          $scope.$apply(function(){
-            $scope.results = answer;
-          })
-          
-        })
-                */
       }
     }
   })
