@@ -25,4 +25,27 @@ angular
       return text.replace(/^icon-/, '');
     }
   })
+
+  .filter('searchContainer', function() {
+    return function( items, search) {
+      if(!search){
+        return items;
+      }
+      var filtered = [];
+      angular.forEach(items, function(item) {
+        var attr = item.get(0);
+        var added = false;
+        for(var prop in attr){
+          var value = attr[prop];
+          if(!added && value && typeof(value)==='string'){
+            if(prop.indexOf('_')!=0 && value.toLowerCase().indexOf(search.toLowerCase())>=0){
+              added = true;
+              filtered.push(item);
+            }  
+          }
+        }
+      })
+      return filtered;
+    };
+  })
   

@@ -102,6 +102,7 @@ if(!window.$digger){
   
 */
 setTimeout(function(){
+  
   var app = window.$digger.config.application || 'digger';
 
   /*
