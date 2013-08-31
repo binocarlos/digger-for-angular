@@ -5,10 +5,10 @@
 
     <div class="controls controls-row" style="margin-left:120px;">
       <div class="row-fluid">
-      	<div ng-class="{span10:showedit,span12:!showedit}">
+      	<div ng-class="{col-md-10:showedit,col-md-12:!showedit}">
     		  <digger-field readonly="readonly" field="field" container="container" fieldclass="fieldclass" />
       	</div>
-      	<div class="span2" ng-show="showedit">
+      	<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" ng-show="showedit">
       		<a href="#" class="btn btn-mini" ng-click="$emit('deletefield', field)">
               <i class="icon-trash"></i>
           </a>
