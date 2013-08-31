@@ -4,50 +4,24 @@
   
 */
 
+
 angular
   .module('digger.supplychain', [
     'digger.utils'
   ])
 
-  /*
-  
-    returns a function that will assign the given path as the scopes warehouse
-    
-  */
-  .factory('$scopedWarehouse', function(){
-    return function($scope){
-      return function(path){
-        if(!path){
-          return;
-        }
-
-        if($digger.config.debug){
-          console.log('-------------------------------------------');
-          console.log('assigning warehouse: ' + path);  
-        }
-
-        $scope.warehouse = $digger.connect(path);
-      }
-    }
-  })
-
-  /*
-  
-    sets the scopes warehouse for everything beneath
-    
-  */
-  .directive('diggerWarehouse', function($rootScope, $scopedWarehouse){
+  .directive('diggerWarehouse', function($rootScope, $safeApply, $parse){
     return {
       restrict:'EA',
-      scope:true,
-      priority:100,
+      scope:{
+        warehouse:'@'
+      },
       link:function($scope, $elem, $attrs){
-        var assignwarehouse = $scopedWarehouse($scope);
-        $attrs.$observe('warehouse', assignwarehouse);
-        $attrs.$observe('diggerWarehouse', assignwarehouse);
+
       }
     }
   })
+
 
   /*
   
@@ -60,30 +34,30 @@ angular
     otherwise we use the parent scopes warehouse
     
   */
-  .directive('digger', function($rootScope, $scopedWarehouse, $safeApply, $parse){
+  .directive('digger', function($rootScope, $safeApply, $parse){
     return {
       restrict:'EA',
-      scope:true,
-      controller:function($scope){
+      scope:{
+        selector:'@',
+        warehouse:'@'
+      },
+      link:function($scope, $elem, $attrs){
 
-        $scope.lastpath = '';
+        var warehouse = $rootScope.warehouse;
 
-        $scope.$on('digger:reload', function(){
-          $scope.runselector($scope.lastselector, null, true);
-        })
+        if($scope.warehouse){
+          warehouse = $digger.connect($scope.warehouse);
+        }
 
         /*
         
-          this happens when the warehouse or selector changes
+          run the selector and populate results
           
         */
-        $scope.runselector = function(selector){
-          /*
-          
-            run the selector and populate results
-            
-          */
-          $scope.warehouse(selector).ship(function(results){
+        
+        
+        warehouse($scope.selector)
+          .ship(function(results){
 
             $safeApply($scope, function(){
 
@@ -93,13 +67,12 @@ angular
             })
 
           })
-        }
-      },
-      link:function($scope, $elem, $attrs){
+          .fail(function(error){
+            $scope.error = error;
+          })
 
-        $attrs.$observe('selector', function(value) {
-          $scope.runselector(value);
-        })
+
+        
 
       }
     }

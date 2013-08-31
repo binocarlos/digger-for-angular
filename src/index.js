@@ -61,7 +61,7 @@ angular
     the root controller gives access to things like the user and root warehouse
     
   */
-  .controller('DiggerRootCtrl', function($scope, $digger){
+  .controller('DiggerRootCtrl', function($scope, $rootScope, $digger){
 
     /*
     
@@ -72,7 +72,7 @@ angular
 
     /*
     
-      expose the digger use - this is null if not logged in
+      expose the digger user - this is null if not logged in
       
     */
     $scope.user = $digger.user;
@@ -83,6 +83,7 @@ angular
       
     */
     $scope.warehouse = $digger.connect('/');
+    $rootScope.warehouse = $scope.warehouse;
 
   })
 
@@ -113,4 +114,4 @@ setTimeout(function(){
   $('html').attr('ng-controller', 'DiggerRootCtrl');
 
   angular.bootstrap(document, [app]);  
-}, 100)
+}, 10)
