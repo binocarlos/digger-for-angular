@@ -1,0 +1,26 @@
+<div>
+  <div class="control-group" ng-class="{error: haserror}" ng-repeat="field in fields">
+
+    <label style="width:100px;" class="control-label" for="name">{{ (field.title || field.name) | ucfirst }}</label>
+
+    <div class="controls controls-row" style="margin-left:120px;">
+
+      <div class="row-fluid">
+      	<div ng-class="{'col-md-10':showedit,'col-md-12':!showedit}">
+    		  <digger-field readonly="readonly" field="field" container="container" fieldclass="fieldclass" />
+      	</div>
+      	<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" ng-show="showedit">
+      		<a href="#" class="btn btn-mini" ng-click="$emit('deletefield', field)">
+              <i class="icon-trash"></i>
+          </a>
+          <a href="#" class="btn btn-mini" ng-click="$emit('editfield', field)">
+              <i class="icon-edit"></i>
+          </a>
+      	</div>
+      </div>
+    </div>
+
+  </div>
+
+  
+</div>
