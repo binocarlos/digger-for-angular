@@ -25,7 +25,8 @@ angular
           return 'icon-folder-close';
         }
 
-        $scope.toggleopen = function(container){
+        $scope.toggleopen = function(model){
+          var container = $scope.mapmodel(model);
           var existing = container.data('open') || false;
           container.data('open', !existing);
           /*
@@ -38,7 +39,12 @@ angular
           }
         }
 
-        $scope.clickcontainer = function(container){
+        $scope.mapmodel = function(model){
+          return $scope.container.spawn(model);
+        }
+
+        $scope.clickcontainer = function(model){
+          var container = $scope.mapmodel(model);
           $scope.selected = container;
           $scope.loadcontainer(container);
           $scope.$emit('loadcontainer', container);
@@ -82,6 +88,7 @@ angular
           console.log('root changed');
           $scope.container = root;
           $scope.container.isroot = true;
+          $scope.model = $scope.container.get(0);
           $scope.loadcontainer(root);
 
         })
@@ -120,19 +127,19 @@ angular
       [
   '<div class="digger-angular-tree">',
   '   <div>',
-  '     <div ng-click="toggleopen(container);" class="treetoggle"> ',
-  '       <div class="plusminus" ng-hide="container.data(\'open\')">+</div>',
-  '       <div class="plusminus" ng-show="container.data(\'open\')">-</div>',
+  '     <div ng-click="toggleopen(model);" class="treetoggle"> ',
+  '       <div class="plusminus" ng-hide="model._data.open">+</div>',
+  '       <div class="plusminus" ng-show="model._data.open">-</div>',
   '     </div>',
-  '     <div class="treetitle" ng-class="{treehover:over || container.diggerid()==selected.diggerid()}" ng-click="clickcontainer(container);" ng-mouseenter="over=true" ng-mouseleave="over=false">',
-  '       <i class="digger-icon {{ icon({container:container}) || \'icon-folder-close\' }}"></i>',
-  '       <span ng-hide="container.isroot">{{container.title()}}</span>',
+  '     <div class="treetitle" ng-class="{treehover:over || model._digger.diggerid==selected.diggerid()}" ng-click="clickcontainer(model);" ng-mouseenter="over=true" ng-mouseleave="over=false">',
+  '       <i class="digger-icon {{ icon({container:model}) || \'icon-folder-close\' }}"></i>',
+  '       <span ng-hide="container.isroot">{{model.name || model.title || model._digger.tag}}</span>',
   '       <span ng-show="container.isroot">{{treetitle}}</span>',
   '     </div>',
   '   </div>',
   '   <div ng-show="container.data(\'open\')">',
   '     <div class="children">',
-  '       <div ng-repeat="container in container.children().containers() | orderBy:sortContainer" ng-include="\'template/tree/tree.html\'"></div>',
+  '       <div ng-repeat="model in model._children | orderBy:sortContainer" ng-include="\'template/tree/tree.html\'"></div>',
   '     </div>',
   '   </div>',
   '</div>'

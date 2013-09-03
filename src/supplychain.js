@@ -22,6 +22,17 @@ angular
     }
   })
 
+  .directive('diggerChildren', function($rootScope, $safeApply, $parse){
+    return {
+      restrict:'EA',
+      scope:true,
+      link:function($scope, $elem, $attrs){
+        console.log('-------------------------------------------');
+        console.log('-------------------------------------------');
+        console.log('CHILDREN');
+      }
+    }
+  })
 
   /*
   
@@ -39,9 +50,11 @@ angular
       restrict:'EA',
       scope:{
         selector:'@',
-        warehouse:'@'
+        warehouse:'@',
+        assign:'@'
       },
-      link:function($scope, $elem, $attrs){
+      controller:function($scope){
+      //link:function($scope, $elem, $attrs){
 
         var warehouse = $rootScope.warehouse;
 
@@ -49,27 +62,43 @@ angular
           warehouse = $digger.connect($scope.warehouse);
         }
 
-        /*
-        
-          run the selector and populate results
+        $scope.$digger = function(models){
+          return warehouse.spawn(models);
+        }
+
+        $scope.$watch('selector', function(selector){
+          console.log('-------------------------------------------');
+          console.log('here is the selector');
+          console.dir(selector);
+          /*
           
-        */
-        
-        
-        warehouse($scope.selector)
-          .ship(function(results){
+            run the selector and populate results
+            
+          */
+          warehouse(selector)
+            .ship(function(results){
 
-            $safeApply($scope, function(){
+              $safeApply($scope, function(){
 
-              $scope.results = results;
-              $scope.containers = results.containers();
+                var containers = results.containers();
+                $scope.results = results;
+                $scope.containers = containers;
+
+                /*
+                $scope.containers = results.containers();
+
+                if($scope.assign){
+                  $scope[$scope.assign] = results;
+                }*/
+
+              })
 
             })
-
-          })
-          .fail(function(error){
-            $scope.error = error;
-          })
+            .fail(function(error){
+              $scope.error = error;
+            })  
+        })
+        
 
 
         
