@@ -25,7 +25,7 @@ angular
     'digger.form',
     'digger.tree',
     'digger.radio',
-    'digger.filters'
+    'digger.filters'    
   ])
 
   /*
@@ -36,15 +36,15 @@ angular
   .run([function($rootScope){
     
     var templates = {};
-   
-    $('script[type="digger/template"]').each(function(){
-      var template = $(this).html();
-      var name = $(this).attr('name');
-      templates[name] = template;
+
+    var scripts = angular.element(document).find('script');
+
+    scripts.each(function(index){
+      if(scripts.eq(index).attr('type')==='digger/field'){
+        $digger.template.add(templates);
+      }
     })
    
-    $digger.template.add(templates);
-    
   }])
 
     /*
