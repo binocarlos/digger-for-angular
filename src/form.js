@@ -95,7 +95,7 @@ angular
   .factory('$propertyModel', function(){
     return function(container, fieldname){
       if(fieldname.indexOf('.')>0){
-        var parts = $scope.fieldname.split('.');
+        var parts = fieldname.split('.');
         var fieldname = parts.pop();
         var basename = parts.join('.');
 
