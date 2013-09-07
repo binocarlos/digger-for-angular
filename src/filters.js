@@ -19,6 +19,15 @@ angular
     }
   })
 
+  .filter('money', function(){
+    return function(st){
+      if(!st){
+        return '';
+      }
+      return ('' + st).replace(/^\./, '0.');
+    }
+  })
+
   .filter('icontitle', function () {
     return function (text, length, end) {
       text = text || '';

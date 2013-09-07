@@ -4,6 +4,7 @@ require('./form');
 require('./tree');
 require('./radio');
 require('./filters');
+require('./repeat');
 
 
 /*
@@ -25,7 +26,8 @@ angular
     'digger.form',
     'digger.tree',
     'digger.radio',
-    'digger.filters'    
+    'digger.filters',
+    'digger.repeat'
   ])
 
   /*
@@ -40,8 +42,16 @@ angular
     var scripts = angular.element(document).find('script');
 
     scripts.each(function(index){
-      if(scripts.eq(index).attr('type')==='digger/field'){
-        $digger.template.add(templates);
+      var script = scripts.eq(index);
+      if(script.attr('type')==='digger/field'){
+        var name = script.attr('name');
+        var html = script.html();
+        if($digger.config.debug){
+          console.log('-------------------------------------------');
+          console.log('add template: ' + name);
+          console.log(html);
+        }
+        $digger.template.add(name, html);
       }
     })
    
@@ -114,4 +124,4 @@ setTimeout(function(){
   $('html').attr('ng-controller', 'DiggerRootCtrl');
 
   angular.bootstrap(document, [app]);  
-}, 10)
+}, 100)

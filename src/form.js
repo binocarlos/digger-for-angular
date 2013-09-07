@@ -234,7 +234,11 @@ angular
 
         $scope.$watch('rendertemplate', function(html){
 
-          $(elem).append($compile(html)($scope));
+          if(!html){
+            return;
+          }
+
+          elem.append($compile(html)($scope));
         })
 
         $scope.$watch('container', function(){
