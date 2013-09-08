@@ -19,6 +19,7 @@
     "src/form.js",
     "src/tree.js",
     "src/radio.js",
+    "src/repeat.js",
     "src/templates/form.js",
     "src/templates/field.js"
   ]

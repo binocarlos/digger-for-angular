@@ -86,6 +86,10 @@ angular
       link:function($scope, elem, $attrs){
         var loader = $warehouseLoader($scope);
 
+        $scope.$on('digger:reload', function(){
+          loader($attrs.selector, $attrs.warehouse);
+        })
+
         $attrs.$observe('selector', function(selector){
           loader(selector, $attrs.warehouse);
         })
