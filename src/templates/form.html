@@ -1,6 +1,7 @@
- <form class="form-horizontal" name="loginForm" role="form">
+ 
   
-  <div class="form-group" ng-class="{error: haserror}" ng-repeat="field in fields">
+<div ng-form="diggerForm">
+  <div class="form-group" ng-class="{error: haserror, 'has-error':container.errors[field.name]}" ng-repeat="field in fields">
     <label for="{{ field.name }}" class="col-sm-3 control-label">{{ (field.title || field.name) | ucfirst }}</label>
     <div class="col-sm-7">
       <digger-field readonly="readonly" field="field" container="container" fieldclass="fieldclass" />
@@ -15,4 +16,4 @@
     </div>
   </div>
   <div ng-transclude></div>
-</form>
+</div>

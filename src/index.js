@@ -98,14 +98,7 @@ angular
   })
 
 
-/*
 
-  BOOTSTRAP
-  
-*/
-if(!window.$digger){
-  throw new Error('$digger must be loaded on the same page to use the digger angular module');
-}
 
 /*
 
@@ -114,6 +107,15 @@ if(!window.$digger){
 */
 setTimeout(function(){
   
+  /*
+
+    BOOTSTRAP
+    
+  */
+  if(!window.$digger){
+    throw new Error('$digger must be loaded on the same page to use the digger angular module');
+  }
+
   var app = window.$digger.config.application || 'digger';
 
   /*

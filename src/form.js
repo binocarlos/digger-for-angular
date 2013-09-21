@@ -22,7 +22,10 @@ angular
       },
       transclude:true,
       replace:true,
-      template:templates.form
+      template:templates.form,
+      link:function($scope, elem, $attrs){
+
+      }
     }
   })
 
@@ -153,6 +156,10 @@ angular
 
         $scope.fieldname = '';
         $scope.rendertype = 'text';
+
+        if(typeof($scope.field.required)=='string'){
+          $scope.field.required = eval($scope.field.required);
+        }
 
         $scope.setup = function(){
           $scope.setup_field_and_model();

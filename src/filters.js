@@ -35,6 +35,14 @@ angular
     }
   })
 
+  .filter('datetime', function () {
+    return function (timestamp) {
+      var dt = new Date(timestamp);
+
+      return dt.toString();
+    }
+  })
+
   .filter('matchContainer', function() {
     return function(items, selector) {
       if(!search){
