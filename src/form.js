@@ -18,6 +18,7 @@ angular
         fields:'=',
         container:'=',
         fieldclass:'@',
+        readonly:'@',
         showedit:'='
       },
       transclude:true,
@@ -154,6 +155,7 @@ angular
       template:templates.field,
       controller:function($scope){
 
+        $scope.parentreadonly = ($scope.globalreadonly || '').indexOf('y')==0;
         $scope.fieldname = '';
         $scope.rendertype = 'text';
 
@@ -218,13 +220,15 @@ angular
           */
           var template = $digger.template.get($scope.field.type);
 
+          $scope.readonly = $scope.parentreadonly || ($scope.field.type==='readonly' || $scope.field.readonly || $scope.container.data('readonly'));
+          
           if(template){
             $scope.fieldtype = 'template';
             $scope.rendertemplate = template;
           }
           else{
 
-            $scope.readonly = $scope.field.type==='readonly' || $scope.field.readonly || $scope.container.data('readonly');
+            
             $scope.fieldtype = fieldtypes[$scope.field.type] ? $scope.field.type : 'text';
 
             
