@@ -1,26 +1,23 @@
 {
   "name": "digger-for-angular",
   "repo": "binocarlos/digger-for-angular",
-  "description": "Angular JS adaptor to digger.io",
-  "version": "0.0.9",
+  "description": "Angular JS adaptor to digger",
+  "version": "0.1.0",
   "keywords": [],
-  "dependencies": {},
+  "dependencies": {
+    "binocarlos/digger-supplychain-for-angular": "*",
+    "binocarlos/digger-radio-for-angular": "*",
+    "binocarlos/digger-filters-for-angular": "*",
+    "binocarlos/digger-form-for-angular": "*",
+    "binocarlos/digger-repeat-for-angular": "*",
+    "binocarlos/digger-tree-for-angular": "*"
+  },
   "development": {},
   "license": "MIT",
-  "main": "src/index.js",
-  "styles": [
-    "src/page.css"
-  ],
+  "main": "index.js",
+  "styles": [],
   "scripts": [
-    "src/index.js",
-    "src/utils.js",
-    "src/filters.js",
-    "src/supplychain.js",
-    "src/form.js",
-    "src/tree.js",
-    "src/radio.js",
-    "src/repeat.js",
-    "src/templates/form.js",
-    "src/templates/field.js"
-  ]
+    "index.js"
+  ],
+  "remotes": []
 }
