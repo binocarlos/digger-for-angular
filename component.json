@@ -10,7 +10,8 @@
     "binocarlos/digger-filters-for-angular": "*",
     "binocarlos/digger-form-for-angular": "*",
     "binocarlos/digger-repeat-for-angular": "*",
-    "binocarlos/digger-tree-for-angular": "*"
+    "binocarlos/digger-tree-for-angular": "*",
+    "binocarlos/digger-utils-for-angular": "*"
   },
   "development": {},
   "license": "MIT",

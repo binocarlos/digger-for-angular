@@ -1,11 +1,11 @@
-/*require('digger-utils-for-angular');
+require('digger-utils-for-angular');
 require('digger-supplychain-for-angular');
 require('digger-form-for-angular');
 require('digger-tree-for-angular');
 require('digger-radio-for-angular');
 require('digger-filters-for-angular');
 require('digger-repeat-for-angular');
-*/
+
 
 /*
 
