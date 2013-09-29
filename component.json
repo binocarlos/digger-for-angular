@@ -11,6 +11,7 @@
     "binocarlos/digger-form-for-angular": "*",
     "binocarlos/digger-repeat-for-angular": "*",
     "binocarlos/digger-tree-for-angular": "*",
+    "binocarlos/digger-viewer-for-angular": "*",
     "binocarlos/digger-utils-for-angular": "*"
   },
   "development": {},

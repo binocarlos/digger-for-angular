@@ -5,6 +5,7 @@ require('digger-tree-for-angular');
 require('digger-radio-for-angular');
 require('digger-filters-for-angular');
 require('digger-repeat-for-angular');
+require('digger-viewer-for-angular');
 
 
 /*
@@ -25,6 +26,7 @@ angular
     'digger.supplychain',
     'digger.form',
     'digger.tree',
+    'digger.viewer',
     'digger.radio',
     'digger.filters',
     'digger.repeat'
