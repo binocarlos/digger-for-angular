@@ -64,7 +64,7 @@ angular
    
   }])
 
-    /*
+  /*
   
     return a promise that resolves when the window $digger object is ready
     
