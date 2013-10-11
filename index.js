@@ -1,3 +1,4 @@
+require('digger-bootstrap-for-angular');
 require('digger-utils-for-angular');
 require('digger-supplychain-for-angular');
 require('digger-form-for-angular');
@@ -6,6 +7,7 @@ require('digger-radio-for-angular');
 require('digger-filters-for-angular');
 require('digger-repeat-for-angular');
 require('digger-viewer-for-angular');
+require('digger-folders');
 
 
 /*
@@ -22,7 +24,9 @@ require('digger-viewer-for-angular');
 
 angular
   .module('digger', [
+    'digger.bootstrap',
     'digger.utils',
+    'digger.folders',
     'digger.supplychain',
     'digger.form',
     'digger.tree',
@@ -31,106 +35,3 @@ angular
     'digger.filters',
     'digger.repeat'
   ])
-
-  /*
-  
-    make sure that the $digger object has been loaded onto the page
-    
-  */
-  .run([function($rootScope){
-    
-    /*
-    
-      auto template injection
-      
-    */
-    var templates = {};
-
-    var scripts = angular.element(document).find('script');
-
-    scripts.each(function(index){
-      var script = scripts.eq(index);
-      if(script.attr('type')==='digger/field'){
-        var name = script.attr('name');
-        var html = script.html();
-        if($digger.config.debug){
-          console.log('-------------------------------------------');
-          console.log('add template: ' + name);
-          console.log(html);
-        }
-        $digger.template.add(name, html);
-      }
-    })
-   
-  }])
-
-  /*
-  
-    return a promise that resolves when the window $digger object is ready
-    
-  */
-  .factory('$digger', function($q){
-    return window.$digger;
-  })
-
-  /*
-  
-    the root controller gives access to things like the user and root warehouse
-    
-  */
-  .controller('DiggerRootCtrl', function($scope, $rootScope, $digger){
-
-    /*
-    
-      expose the connect command - this enables warehouses to be made from directives
-      
-    */
-    $scope.connect = $digger.connect;
-
-    /*
-    
-      expose the digger user - this is null if not logged in
-      
-    */
-    $scope.user = $digger.user;
-
-    /*
-    
-      expose the root warehouse - this can be used a the root container for the page
-      
-    */
-    $scope.warehouse = $digger.connect('/');
-    $rootScope.warehouse = $scope.warehouse;
-
-  })
-
-
-
-
-/*
-
-  digger is loaded but lets give the rest of the code a chance to register before we bootstrap
-  
-*/
-setTimeout(function(){
-  
-  /*
-
-    BOOTSTRAP
-    
-  */
-  if(!window.$digger){
-    throw new Error('$digger must be loaded on the same page to use the digger angular module');
-  }
-
-  var app = window.$digger.config.application || 'digger';
-
-  /*
-  
-    this auto adds the Root Controller so the rest of the page has things like user in it's scope
-    
-  */
-  $('html').attr('ng-controller', 'DiggerRootCtrl');
-
-  angular.bootstrap(document, [app]);  
-}, 100)
