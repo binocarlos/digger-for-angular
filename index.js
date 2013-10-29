@@ -82,18 +82,16 @@ angular
         if(key.indexOf('_')===0){
           return;
         }
-        if(typeof(val)=='string'){
-          val = '' + val;
+        if(key=='$$hashKey'){
+          return;
         }
-        if(val && val.length>0){
-          pairs[key] = val;  
-        }
+        pairs[key] = val;
       })
       
       Object.keys(pairs || {}).forEach(function(field){
         var value = pairs[field];
       
-        if(value!=null && value!=undefined){
+        if(value!=null && value!=''){
           pair_strings.push(field + '="' + value + '"');  
         }
       })
@@ -116,6 +114,52 @@ angular
 
     return string_factory;
 
+  })
+
+  .factory('xmlDecoder', function(xmlParser){
+    return function(xml){
+      var domElement = xmlParser.parse(xml);
+      var documentElement = domElement.documentElement;
+
+      function process_elem(xml_elem){
+        var attr = {};
+        
+        
+        for(var i=0; i<xml_elem.attributes.length; i++){
+          var node_attr = xml_elem.attributes[i];
+          attr[node_attr.nodeName] = node_attr.nodeValue;
+        }
+
+        var classnames = (attr.class || '').split(/\s*,\s*/);
+        delete(attr.class);
+        var id = attr.id;
+        delete(attr.id);
+
+        var container = $digger.container(xml_elem.tagName);  
+
+        classnames.forEach(function(classname){
+          container.addClass(classname);
+        })
+
+        if(id){
+          container.id(id);
+        }
+
+        container.attr(attr);
+/*
+        var child_models = [];
+
+        for(var j=0; j<xml_elem.childNodes.length; j++){
+          var node_attr = xml_elem.attributes[i];
+          attr[node_attr.nodeName] = node_attr.nodeValue;
+        }
+*/
+
+        return container;
+      }
+
+      return process_elem(documentElement);
+    }
   })
 
   .factory('xmlParser', ['$window', function ($window) {
