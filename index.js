@@ -124,13 +124,12 @@ angular
       function process_elem(xml_elem){
         var attr = {};
         
-        
         for(var i=0; i<xml_elem.attributes.length; i++){
           var node_attr = xml_elem.attributes[i];
           attr[node_attr.nodeName] = node_attr.nodeValue;
         }
 
-        var classnames = (attr.class || '').split(/\s*,\s*/);
+        var classnames = (attr.class || '').split(/[\s,]+/);
         delete(attr.class);
         var id = attr.id;
         delete(attr.id);
@@ -145,20 +144,46 @@ angular
           container.id(id);
         }
 
-        container.attr(attr);
-/*
+        Object.keys(attr || {}).forEach(function(prop){
+          var val = attr[prop];
+          if(('' + val).toLowerCase()==="true"){
+            val = true;
+          }
+          else if(('' + val).toLowerCase()==="false"){
+            val = false;
+          }
+          else if(('' + val).match(/^-?\d+(\.\d+)?$/)){
+            var num = parseFloat(val);
+            if(!isNaN(num)){
+              val = num;
+            }
+          }
+          container.attr(prop, val);
+        })
+
         var child_models = [];
 
         for(var j=0; j<xml_elem.childNodes.length; j++){
-          var node_attr = xml_elem.attributes[i];
-          attr[node_attr.nodeName] = node_attr.nodeValue;
+          var child_node = xml_elem.childNodes[j];
+          if(child_node.nodeType==1){
+            var child = process_elem(child_node);
+            child_models.push(child.get(0));
+          }          
         }
-*/
+
+        container.get(0)._children = child_models;
 
         return container;
       }
 
-      return process_elem(documentElement);
+      // invalid XML
+      
+      if(documentElement.nodeName=='html'){
+        return null;
+      }
+      else{
+        return process_elem(documentElement);
+      }
     }
   })
 
