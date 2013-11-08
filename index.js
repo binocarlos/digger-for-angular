@@ -66,6 +66,10 @@ angular
     $rootScope.warehouse = $scope.warehouse;
     $rootScope.blueprint = $digger.blueprint;
 
+
+    console.log('-------------------------------------------');
+    console.log('ROOT');
+
   })
 
 
@@ -76,6 +80,8 @@ angular
   */
   .run(function($rootScope, xmlDecoder, $safeApply){
     
+    console.log('-------------------------------------------');
+    console.log('running');
     /*
     
       auto template injection
