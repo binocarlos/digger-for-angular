@@ -12,7 +12,11 @@
   "main": "index.js",
   "styles": [],
   "scripts": [
-    "index.js"
+    "index.js",
+    "filters.js",
+    "repeat.js",
+    "supplychain.js",
+    "templates.js"
   ],
   "remotes": []
 }
