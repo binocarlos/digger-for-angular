@@ -1,20 +1,11 @@
 {
   "name": "digger-for-angular",
-  "repo": "binocarlos/digger-for-angular",
+  "repo": "diggerio/digger-for-angular",
   "description": "Angular JS adaptor to digger",
   "version": "0.1.0",
   "keywords": [],
   "dependencies": {
-    "binocarlos/digger-supplychain-for-angular": "*",
-    "binocarlos/digger-radio-for-angular": "*",
-    "binocarlos/digger-filters-for-angular": "*",
-    "binocarlos/digger-form-for-angular": "*",
-    "binocarlos/digger-repeat-for-angular": "*",
-    "binocarlos/digger-tree-for-angular": "*",
-    "binocarlos/digger-viewer-for-angular": "*",
-    "binocarlos/digger-utils-for-angular": "*",
-    "binocarlos/digger-bootstrap-for-angular": "*",
-    "binocarlos/digger-folders": "*"
+    "diggerio/digger-utils-for-angular": "*"
   },
   "development": {},
   "license": "MIT",
