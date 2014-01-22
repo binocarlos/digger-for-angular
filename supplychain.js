@@ -11,6 +11,15 @@ angular
 
   /*
   
+    return the global digger
+    
+  */
+  .factory('$digger', function(){
+    return window.$digger;
+  })
+
+  /*
+  
     connects to the current warehouse or a custom one and runs the selector against it
 
     it populates the $digger scope property with the results
