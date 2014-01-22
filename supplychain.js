@@ -6,7 +6,7 @@
 module.exports = 'digger.supplychain';
 angular
   .module('digger.supplychain', [
-    require('digger-utils-for-angular')
+    
   ])
 
   /*
