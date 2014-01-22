@@ -10,6 +10,8 @@
   
 */
 
+module.exports = 'digger';
+
 angular
   .module('digger', [
     require('digger-utils-for-angular'),
