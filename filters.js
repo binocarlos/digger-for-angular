@@ -135,6 +135,47 @@ angular
     };
   })
 
+  .filter('namesort', function() {
+
+    return function(items) {
+      var ret = [].concat(items);
+      ret.sort(function(a, b) {
+        var textA = (a.attr('name') || a.attr('title') || a.tag()).toUpperCase();
+        var textB = (b.attr('name') || a.attr('title') || b.tag()).toUpperCase();
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+      });  
+      return ret;
+    };
+  })
+
+  .filter('diggername', function() {
+
+    return function(container) {
+      if(!container){
+        return '';
+      }
+      return container.title();
+    }
+  })
+
+  .filter('diggersummary', function() {
+
+    return function(container) {
+      if(!container){
+        return '';
+      }
+      var st = container.tag();
+      if(container.id()){
+        st += '#' + container.id();
+      }
+      var c = container.classnames() || [];
+      if(c.length>0){
+        st += '.' + container.classnames().join('.');
+      }
+      return st;
+    }
+  })
+
   .filter('viewersort', function() {
 
     return function(items) {
